@@ -8,6 +8,8 @@
 ![FAISS](https://img.shields.io/badge/FAISS-Vector_Search-A3B8CC?style=flat-square&logo=meta&logoColor=0D1B2A)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-A78BFA?style=flat-square&logo=huggingface&logoColor=0D1B2A)
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-HuggingFace_Spaces-A78BFA?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/ges257/sec-10k-rag)
+
 </div>
 
 ---
