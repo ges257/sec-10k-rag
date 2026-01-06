@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 
 # Import system components
-from src.chunker import DocumentChunker
+from src.chunker import Chunker
 from src.retriever import HybridRetriever
 from src.generator import AnswerGenerator
 from src.index_manager import VersionedIndexManager
@@ -50,7 +50,7 @@ def initialize_system(pdf_path: str = "data/ibm_10k_2024.pdf"):
             status_messages.append("No pre-built index found. Building from PDF...")
 
             # Load and chunk document
-            chunker = DocumentChunker()
+            chunker = Chunker()
             chunks = chunker.process_pdf(pdf_path)
             status_messages.append(f"Chunked document: {len(chunks)} chunks")
 

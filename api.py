@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # Import system components
-from src.chunker import DocumentChunker
+from src.chunker import Chunker
 from src.retriever import HybridRetriever
 from src.generator import AnswerGenerator
 from src.index_manager import VersionedIndexManager
@@ -92,7 +92,7 @@ async def lifespan(app: FastAPI):
         else:
             # Build from scratch
             print("No pre-built index. Building from PDF...")
-            chunker = DocumentChunker()
+            chunker = Chunker()
             state.chunks = chunker.process_pdf("data/ibm_10k_2024.pdf")
             state.index_version = "built_on_startup"
 
