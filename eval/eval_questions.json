@@ -1,0 +1,212 @@
+[
+  {
+    "id": "risk_001",
+    "question": "What intellectual property risks does IBM face?",
+    "gold_keywords": ["intellectual property", "IP", "patent", "copyright", "infringement"],
+    "target_section": "risk_factors",
+    "difficulty": "easy"
+  },
+  {
+    "id": "risk_002",
+    "question": "What cybersecurity risks does IBM identify in their filing?",
+    "gold_keywords": ["cybersecurity", "security", "data", "breach", "cyber"],
+    "target_section": "risk_factors",
+    "difficulty": "easy"
+  },
+  {
+    "id": "risk_003",
+    "question": "How does IBM describe risks related to foreign exchange?",
+    "gold_keywords": ["foreign exchange", "currency", "exchange rate", "international"],
+    "target_section": "risk_factors",
+    "difficulty": "medium"
+  },
+  {
+    "id": "risk_004",
+    "question": "What regulatory compliance risks does IBM face?",
+    "gold_keywords": ["regulatory", "compliance", "regulation", "government"],
+    "target_section": "risk_factors",
+    "difficulty": "medium"
+  },
+  {
+    "id": "risk_005",
+    "question": "What talent and workforce risks does IBM mention?",
+    "gold_keywords": ["talent", "workforce", "employee", "personnel", "recruitment"],
+    "target_section": "risk_factors",
+    "difficulty": "medium"
+  },
+  {
+    "id": "risk_006",
+    "question": "What competitive pressures does IBM face?",
+    "gold_keywords": ["competition", "competitive", "competitors", "market"],
+    "target_section": "risk_factors",
+    "difficulty": "easy"
+  },
+  {
+    "id": "risk_007",
+    "question": "What supply chain risks does IBM identify?",
+    "gold_keywords": ["supply chain", "supplier", "manufacturing", "components"],
+    "target_section": "risk_factors",
+    "difficulty": "medium"
+  },
+  {
+    "id": "risk_008",
+    "question": "What economic and geopolitical risks does IBM discuss?",
+    "gold_keywords": ["economic", "geopolitical", "global", "macroeconomic"],
+    "target_section": "risk_factors",
+    "difficulty": "hard"
+  },
+  {
+    "id": "revenue_001",
+    "question": "What are IBM's main revenue segments?",
+    "gold_keywords": ["software", "consulting", "infrastructure", "segment"],
+    "target_section": "revenue",
+    "difficulty": "easy"
+  },
+  {
+    "id": "revenue_002",
+    "question": "How does IBM break down revenue by geography?",
+    "gold_keywords": ["geography", "Americas", "Europe", "Asia", "region"],
+    "target_section": "revenue",
+    "difficulty": "medium"
+  },
+  {
+    "id": "revenue_003",
+    "question": "What is IBM's software revenue performance?",
+    "gold_keywords": ["software", "revenue", "growth", "Red Hat"],
+    "target_section": "revenue",
+    "difficulty": "easy"
+  },
+  {
+    "id": "revenue_004",
+    "question": "How has IBM's consulting business performed?",
+    "gold_keywords": ["consulting", "services", "revenue", "growth"],
+    "target_section": "revenue",
+    "difficulty": "easy"
+  },
+  {
+    "id": "revenue_005",
+    "question": "What is IBM's infrastructure segment revenue?",
+    "gold_keywords": ["infrastructure", "hardware", "systems", "mainframe"],
+    "target_section": "revenue",
+    "difficulty": "medium"
+  },
+  {
+    "id": "revenue_006",
+    "question": "What is IBM's gross profit margin?",
+    "gold_keywords": ["gross profit", "margin", "percentage"],
+    "target_section": "revenue",
+    "difficulty": "medium"
+  },
+  {
+    "id": "strategy_001",
+    "question": "How does IBM describe its business strategy?",
+    "gold_keywords": ["strategy", "growth", "transformation", "hybrid cloud"],
+    "target_section": "strategy",
+    "difficulty": "easy"
+  },
+  {
+    "id": "strategy_002",
+    "question": "What are IBM's strategic priorities?",
+    "gold_keywords": ["priority", "strategic", "focus", "investment"],
+    "target_section": "strategy",
+    "difficulty": "easy"
+  },
+  {
+    "id": "strategy_003",
+    "question": "How is IBM positioning itself in the hybrid cloud market?",
+    "gold_keywords": ["hybrid cloud", "cloud", "Red Hat", "platform"],
+    "target_section": "strategy",
+    "difficulty": "medium"
+  },
+  {
+    "id": "strategy_004",
+    "question": "What acquisitions has IBM made recently?",
+    "gold_keywords": ["acquisition", "acquired", "purchase", "merger"],
+    "target_section": "strategy",
+    "difficulty": "hard"
+  },
+  {
+    "id": "tech_001",
+    "question": "How does IBM discuss artificial intelligence?",
+    "gold_keywords": ["artificial intelligence", "AI", "machine learning", "watsonx"],
+    "target_section": "technology",
+    "difficulty": "easy"
+  },
+  {
+    "id": "tech_002",
+    "question": "What is IBM's research and development spending?",
+    "gold_keywords": ["research", "development", "R&D", "spending", "investment"],
+    "target_section": "technology",
+    "difficulty": "medium"
+  },
+  {
+    "id": "tech_003",
+    "question": "What quantum computing initiatives does IBM have?",
+    "gold_keywords": ["quantum", "computing", "Qiskit"],
+    "target_section": "technology",
+    "difficulty": "hard"
+  },
+  {
+    "id": "tech_004",
+    "question": "How does IBM describe its innovation capabilities?",
+    "gold_keywords": ["innovation", "research", "patent", "technology"],
+    "target_section": "technology",
+    "difficulty": "medium"
+  },
+  {
+    "id": "tech_005",
+    "question": "What cloud computing services does IBM offer?",
+    "gold_keywords": ["cloud", "hybrid cloud", "Red Hat", "OpenShift"],
+    "target_section": "technology",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exec_001",
+    "question": "What does IBM's CEO say about the company's progress?",
+    "gold_keywords": ["CEO", "chairman", "investor", "progress", "growth"],
+    "target_section": "executive",
+    "difficulty": "easy"
+  },
+  {
+    "id": "exec_002",
+    "question": "How does IBM describe its 2024 performance to shareholders?",
+    "gold_keywords": ["shareholder", "performance", "2024", "results"],
+    "target_section": "executive",
+    "difficulty": "medium"
+  },
+  {
+    "id": "business_001",
+    "question": "How does IBM describe its business overview?",
+    "gold_keywords": ["business", "company", "technology", "services"],
+    "target_section": "business",
+    "difficulty": "easy"
+  },
+  {
+    "id": "business_002",
+    "question": "What markets does IBM operate in?",
+    "gold_keywords": ["market", "industry", "sector", "enterprise"],
+    "target_section": "business",
+    "difficulty": "medium"
+  },
+  {
+    "id": "business_003",
+    "question": "Who are IBM's main customers?",
+    "gold_keywords": ["customer", "client", "enterprise", "government"],
+    "target_section": "business",
+    "difficulty": "medium"
+  },
+  {
+    "id": "financial_001",
+    "question": "What is IBM's total revenue?",
+    "gold_keywords": ["revenue", "billion", "total", "fiscal"],
+    "target_section": "revenue",
+    "difficulty": "easy"
+  },
+  {
+    "id": "financial_002",
+    "question": "What is IBM's free cash flow?",
+    "gold_keywords": ["free cash flow", "cash", "operating"],
+    "target_section": "revenue",
+    "difficulty": "medium"
+  }
+]

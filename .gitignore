@@ -1,0 +1,36 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Data files (too large / user-specific)
+data/*.pdf
+data/*.txt
+
+# Generated indices
+indices/*.faiss
+indices/*.pkl
+indices/*.json
+
+# Evaluation outputs
+eval/eval_results.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
