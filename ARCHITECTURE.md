@@ -2,105 +2,140 @@
 
 ## System Overview
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            IBM 10-K RAG System                              │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌───────────┐ │
-│  │   Gradio    │     │  FastAPI    │     │  Retriever  │     │ Generator │ │
-│  │  Frontend   │────▶│   Backend   │────▶│   Pipeline  │────▶│  (LLM)    │ │
-│  │  (app.py)   │     │  (api.py)   │     │             │     │           │ │
-│  └─────────────┘     └─────────────┘     └─────────────┘     └───────────┘ │
-│                                                 │                           │
-│                            ┌────────────────────┴────────────────────┐      │
-│                            ▼                    ▼                    ▼      │
-│                     ┌───────────┐        ┌───────────┐        ┌───────────┐│
-│                     │   FAISS   │        │   BM25    │        │  Cross-   ││
-│                     │  (Dense)  │        │ (Sparse)  │        │  Encoder  ││
-│                     └───────────┘        └───────────┘        └───────────┘│
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph UI["User Interface"]
+        A1["Gradio Frontend"]
+        A2["app.py"]
+        A1 --> A2
+    end
+
+    subgraph API["Backend"]
+        B1["FastAPI"]
+        B2["api.py"]
+        B1 --> B2
+    end
+
+    subgraph Retrieval["Retriever Pipeline"]
+        C1["FAISS (Dense)"]
+        C2["BM25 (Sparse)"]
+        C3["Cross-Encoder"]
+    end
+
+    subgraph Gen["Generator"]
+        D1["FLAN-T5 LLM"]
+    end
+
+    UI --> API --> Retrieval --> Gen
+
+    style UI fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style API fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Retrieval fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Gen fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    linkStyle 0,1,2,3,4 stroke:#A78BFA,stroke-width:2px
 ```
 
 ## Data Flow
 
 ### 1. Document Processing Pipeline
 
-```
-PDF Document
-     │
-     ▼
-┌─────────────┐
-│  PDFPlumber │  Extract text from PDF
-│   Parsing   │
-└─────────────┘
-     │
-     ▼
-┌─────────────┐
-│   Section   │  Classify: Risk Factors, Revenue, Strategy, etc.
-│  Detection  │
-└─────────────┘
-     │
-     ▼
-┌─────────────┐
-│  Chunking   │  900 words with 150-word overlap
-│             │  Preserves section metadata
-└─────────────┘
-     │
-     ▼
-┌─────────────┐
-│  Embedding  │  all-MiniLM-L6-v2 (384-dim)
-│ Generation  │
-└─────────────┘
-     │
-     ▼
-┌─────────────┐
-│   FAISS     │  IndexFlatIP (cosine similarity)
-│   Index     │
-└─────────────┘
+```mermaid
+flowchart TB
+    subgraph Input["Input"]
+        A1["PDF Document"]
+    end
+
+    subgraph Parse["Parsing"]
+        B1["PDFPlumber"]
+        B2["Extract text"]
+        B1 --> B2
+    end
+
+    subgraph Classify["Classification"]
+        C1["Section Detection"]
+        C2["Risk Factors, Revenue, Strategy..."]
+        C1 --> C2
+    end
+
+    subgraph Chunk["Chunking"]
+        D1["900 words, 150 overlap"]
+        D2["Preserve section metadata"]
+        D1 --> D2
+    end
+
+    subgraph Embed["Embedding"]
+        E1["all-MiniLM-L6-v2"]
+        E2["384 dimensions"]
+        E1 --> E2
+    end
+
+    subgraph Store["Storage"]
+        F1["FAISS Index"]
+        F2["IndexFlatIP (cosine)"]
+        F1 --> F2
+    end
+
+    Input --> Parse --> Classify --> Chunk --> Embed --> Store
+
+    style Input fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Parse fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Classify fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Chunk fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Embed fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Store fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    linkStyle 0,1,2,3,4,5,6,7,8,9 stroke:#A78BFA,stroke-width:2px
 ```
 
 ### 2. Query Processing Pipeline
 
-```
-User Query
-     │
-     ├────────────────────────────────────┐
-     ▼                                    ▼
-┌─────────────┐                    ┌─────────────┐
-│   Dense     │                    │   Sparse    │
-│   Search    │                    │   Search    │
-│   (FAISS)   │                    │   (BM25)    │
-└─────────────┘                    └─────────────┘
-     │                                    │
-     └────────────┬───────────────────────┘
-                  ▼
-           ┌─────────────┐
-           │   Hybrid    │  alpha * dense + (1-alpha) * sparse
-           │   Fusion    │
-           └─────────────┘
-                  │
-                  ▼ (top-20 candidates)
-           ┌─────────────┐
-           │   Cross-    │  Re-rank with ms-marco-MiniLM-L-6-v2
-           │   Encoder   │
-           └─────────────┘
-                  │
-                  ▼ (top-5 results)
-           ┌─────────────┐
-           │   Section   │  Boost scores for query-relevant sections
-           │    Boost    │
-           └─────────────┘
-                  │
-                  ▼
-           ┌─────────────┐
-           │   FLAN-T5   │  Generate answer from context
-           │  Generator  │
-           └─────────────┘
-                  │
-                  ▼
-            Final Answer
+```mermaid
+flowchart TB
+    subgraph Query["User Query"]
+        Q1["Input question"]
+    end
+
+    subgraph Search["Parallel Search"]
+        S1["Dense Search (FAISS)"]
+        S2["Sparse Search (BM25)"]
+    end
+
+    subgraph Fusion["Hybrid Fusion"]
+        F1["α × dense + (1-α) × sparse"]
+        F2["Top-20 candidates"]
+        F1 --> F2
+    end
+
+    subgraph Rerank["Cross-Encoder Re-ranking"]
+        R1["ms-marco-MiniLM-L-6-v2"]
+        R2["Top-5 re-ranked"]
+        R1 --> R2
+    end
+
+    subgraph Boost["Section Boost"]
+        B1["Query-relevant sections"]
+        B2["+30% score boost"]
+        B1 --> B2
+    end
+
+    subgraph Generate["Answer Generation"]
+        G1["FLAN-T5 Generator"]
+        G2["Final Answer"]
+        G1 --> G2
+    end
+
+    Query --> S1
+    Query --> S2
+    S1 --> Fusion
+    S2 --> Fusion
+    Fusion --> Rerank --> Boost --> Generate
+
+    style Query fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Search fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Fusion fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Rerank fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Boost fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style Generate fill:#A78BFA,stroke:#A78BFA,color:#0D1B2A
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10 stroke:#A78BFA,stroke-width:2px
 ```
 
 ## Component Details
