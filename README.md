@@ -35,40 +35,23 @@
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  DOCUMENT PROCESSING                                             │
-│  ─────────────────────                                          │
-│  128-page PDF → 96 semantic chunks with section metadata        │
-│  Sections: Revenue, Risk Factors, Strategy, Technology, etc.    │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  HYBRID RETRIEVAL (Stage 1)                                     │
-│  ─────────────────────────────                                  │
-│  Dense: all-MiniLM-L6-v2 embeddings → FAISS                     │
-│  Sparse: BM25Okapi for keyword matching                         │
-│  Score: α × dense + (1-α) × sparse                              │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  CROSS-ENCODER RE-RANKING (Stage 2)                             │
-│  ─────────────────────────────────────                          │
-│  Model: ms-marco-MiniLM-L-6-v2                                  │
-│  Input: Top-20 candidates → Output: Top-5 re-ranked             │
-│  Key: Pairwise attention sees query + doc together              │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  ANSWER GENERATION                                               │
-│  ─────────────────────                                          │
-│  Model: FLAN-T5-Small (local, CPU)                              │
-│  Cost: $0 per query                                             │
-│  Latency: ~200ms generation                                     │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    S1["<b style='color:#A78BFA'>DOCUMENT PROCESSING</b><br>─────────────────────<br>128-page PDF → 96 semantic chunks with section metadata<br>Sections: Revenue, Risk Factors, Strategy, Technology, etc."]
+
+    S2["<b style='color:#A78BFA'>HYBRID RETRIEVAL (Stage 1)</b><br>─────────────────────────────<br>Dense: all-MiniLM-L6-v2 embeddings → FAISS<br>Sparse: BM25Okapi for keyword matching<br>Score: α × dense + (1-α) × sparse"]
+
+    S3["<b style='color:#A78BFA'>CROSS-ENCODER RE-RANKING (Stage 2)</b><br>─────────────────────────────────────<br>Model: ms-marco-MiniLM-L-6-v2<br>Input: Top-20 candidates → Output: Top-5 re-ranked<br>Key: Pairwise attention sees query + doc together"]
+
+    S4["<b style='color:#A78BFA'>ANSWER GENERATION</b><br>─────────────────────<br>Model: FLAN-T5-Small (local, CPU)<br>Cost: $0 per query<br>Latency: ~200ms generation"]
+
+    S1 --> S2 --> S3 --> S4
+
+    style S1 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S2 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S3 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    style S4 fill:#1a1a2e,stroke:#A78BFA,color:#A3B8CC
+    linkStyle 0,1,2 stroke:#A78BFA,stroke-width:2px
 ```
 
 ---
