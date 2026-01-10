@@ -132,7 +132,7 @@ sec-10k-rag/
 
 **Part of the AI/ML Portfolio**
 
-[Return to Home](https://github.com/ges257/home) | [LinkedIn](https://linkedin.com/in/gregory-e-schwartz)
+[Return to Home](https://github.com/ges257) | [LinkedIn](https://linkedin.com/in/gregory-e-schwartz)
 
 </div>
 
